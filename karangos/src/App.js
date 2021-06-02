@@ -51,6 +51,8 @@ function Main() {
             <Route path="/new">
               <KarangosForm/>
             </Route>
+            <Route path="/edit/:id">
+            </Route>
           </Switch>
         </Box>
         <FooterBar />

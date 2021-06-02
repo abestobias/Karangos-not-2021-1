@@ -114,6 +114,7 @@ export default function KarangoList() {
     }
 
     useEffect(() => {
+       
         getData()
     }, [])  // Quando a depêndencia de um useEffect é um vetor vazio, isso indica 
     // que ele será executado apenas uma vez, na inicialização do componente
