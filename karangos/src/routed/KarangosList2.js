@@ -63,7 +63,7 @@ export default function KarangosList() {
       console.error(error)
     }
   }
-
+//saas
   async function deleteItem() {
     try {
       await axios.delete(`https://api.faustocintra.com.br/karangos/${deletable}`)
