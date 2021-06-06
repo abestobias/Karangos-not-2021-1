@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-//import { Checkbox, FormControl, FormControlLabel, Toolbar } from '@material-ui/core';
 import InputMask from 'react-input-mask';
-//import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -16,7 +14,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 
 const useStyles = makeStyles(() => ({
     form: {
-        //backgroundColor: 'green',  // Cor de debug
         maxWidth: '80%',
         margin: '0 auto',
         display: 'flex',
@@ -40,12 +37,12 @@ const useStyles = makeStyles(() => ({
 }))
 
 const formatChars = {
-    '0': '[0-9]',
+    'x': '[0-9]',
 }
 
-const mascaraCPF = '000.000.000-00'
-const mascaraRG = '00.000.000-2'
-const mascaraTelefone = '00-0000-0000'
+const mascaraCPF = 'xxx.xxx.xxx-xx'
+const mascaraRG = 'xx.xxx.xxx-x'
+const mascaraTelefone = '(xx)-xxxx-xxxx'
 
 export default function ClienteForm() {
 
@@ -67,8 +64,8 @@ export default function ClienteForm() {
     })
     const [snackState, setSnackState] = useState({
         open: false,
-        severity: 'success',
-        message: 'Cliente salvo com sucesso.'
+        severity: 'SUCESSO',
+        message: 'CLIENTE SALVO'
     })
 
     const [btnSendState, setBtnSendState] = useState({
@@ -125,7 +122,7 @@ export default function ClienteForm() {
         const clienteTemp = { ...cliente }
 
         if (event.target.id) property = event.target.id
-       
+
         if ((property === 'cpf') || (property === 'rg') || (property === 'complemento') || (property === 'uf') || (property === 'telefone')) {
             clienteTemp[property] = event.target.value
         }
@@ -138,9 +135,7 @@ export default function ClienteForm() {
     }
 
     // validação dos campos
-
     function validate(data) {
-
         const errorTemp = {
             nome: '',
             cpf: '',
@@ -156,66 +151,66 @@ export default function ClienteForm() {
         }
         let isValid = true
 
-        // Validação do campo nome
+        // Validar nome
         if (data.nome.trim() === '') {     // trim(): retira os espaços em branco do nício e do final de uma string
-            errorTemp.nome = 'O nome deve ser preenchido'
+            errorTemp.nome = 'Digitar um Nome válido'
             isValid = false
         }
 
-        // Validação do campo cpf
+        // Validar cpf
         if (data.cpf.trim() === '' || data.cpf.includes('_')) {
-            errorTemp.cpf = 'O CPF deve ser preenchido corretamente'
+            errorTemp.cpf = 'Digitar um CPF válido'
             isValid = false
         }
 
-        // Validação do campo rg
+        // Validar rg
         if (data.rg.trim() === '' || data.rg.includes('_')) {
-            errorTemp.rg = 'O RG deve ser preenchido corretamente'
+            errorTemp.rg = 'Digitar um RG válido'
             isValid = false
         }
 
-        // Validação do campo logradouro
+        // Validar logradouro
         if (data.logradouro.trim() === '') {
-            errorTemp.logradouro = 'O logradouro deve ser preenchido'
+            errorTemp.logradouro = 'Escolha um Logradouro'
             isValid = false
         }
 
-        // Validação do campo complemento
+        // Validar complemento
         if (data.complemento.trim() === '') {
-            errorTemp.complemento = 'Escolha um complemento'
+            errorTemp.complemento = 'Digitar um valor válido'
             isValid = false
         }
 
-        // Validação do campo bairro
+        // Validar bairro
         if (data.bairro.trim() === '') {
-            errorTemp.bairro = 'O bairro deve ser preenchido'
+            errorTemp.bairro = 'Digitar um valor válido'
             isValid = false
         }
 
-        // Validação do campo município
+        // Validar município
         if (data.municipio.trim() === '') {
-            errorTemp.municipio = 'O município deve ser preenchido'
+            errorTemp.municipio = 'Digitar um valor válido'
             isValid = false
         }
 
-        // Validação do campo uf
+        // Validar uf
         if (data.uf.trim() === '') {
-            errorTemp.uf = 'Escolha uma UF'
+            errorTemp.uf = 'Escolha um UF'
             isValid = false
         }
 
-        // Validação do campo telefone
+        // Validar telefone
         if (data.telefone.trim() === '') {
-            errorTemp.telefone = 'O telefone deve ser preenchido corretamente'
+            errorTemp.telefone = 'Digitar um telefone válido'
             isValid = false
         }
-
+        // Validar Número
         if (Number(data.num_imovel) <= 0) {
-            errorTemp.num_imovel = 'O número deve ser preenchido corretamente e deve ser maior que zero'
+            errorTemp.num_imovel = 'Digitar um valor válido'
             isValid = false
         }
-
-        if (!data.email.includes('@') || data.email.trim() === '' || data.email.length <= 5) {
+        // Validar email
+        if (data.email.length <= 5 || data.email.trim() === '' || !data.email.includes('@')) {
             errorTemp.email = 'O e-mail deve ser preenchido corretemente'
             isValid = false
         }
@@ -226,7 +221,6 @@ export default function ClienteForm() {
 
 
     //Salvar dados do Cliente
-
     async function saveData() {
         try {
             // Desabilitar o botão Enviar
@@ -249,58 +243,42 @@ export default function ClienteForm() {
             // A FAZER: retornar à página de listagem
         }
         catch (error) {
-            //alert('ERRO: ' + error.message)
+
             setSnackState({
                 open: true,
                 severity: 'error',
                 message: 'ERRO: ' + error.message
             })
         }
-        // Reabilita o botão Enviar
+        // Retoma botão Enviar
         setBtnSendState({ disabled: false, label: 'Enviar' })
     }
 
     function handleSubmit(event) {
 
-        event.preventDefault()   // Evitar o recarregamento da página
-
-        //saveData()
+        event.preventDefault()   // Segura o recarregamento da página
         if (validate(cliente)) saveData()
-        //alert(JSON.stringify(cliente))
     }
 
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
-    
-    
     function handleSnackClose(event, reason) {
-        // Evita que a Snackbar seja fechada clicando-se fora dela
-        if (reason === 'clickway') return
+
+        if (reason === 'clickway') return // Evita que Snackbar feche
         setSnackState({ ...snackState, open: false })  // Fecha a Snackbar
-
-        // Retorna à página de listagem
-        history.push('/listCliente')
+        history.push('/listCliente') // Retorna a paginação
     }
-
-
 
     function handleDialogClose(result) {
         setDialogOpen(false)
-
-        // Se o usuário concordou em voltar 
-        if (result) history.push('/listCliente')
+        if (result) history.push('/listCliente') // voltar
     }
 
-
     function handleGoBack() {
-
-        // Se o formulário estiver modificado, mostramos o diálogo de confirmação
-        if (isModified) setDialogOpen(true)
-
-        // Senão, voltamos diretamente à de listagem
-        else history.push('/listCliente')
+        if (isModified) setDialogOpen(true) // Mostrar diálogo de confirmação
+        else history.push('/listCliente') // Voltar
     }
 
     return (
@@ -308,7 +286,7 @@ export default function ClienteForm() {
             <ConfirmDialog
                 isOpen={dialogOpen}
                 onClose={handleDialogClose}>
-                Há dados não salvos. Deseja realmente voltar?
+                Deseja sair desta página ?
             </ConfirmDialog>
 
             <Snackbar
@@ -400,15 +378,12 @@ export default function ClienteForm() {
                     label="Complemento"
                     variant="filled"
                     value={cliente.complemento}
-                    onChange={event => handleInputChange(event, 'complemento')}
-                    select fullWidth
+                    onChange={handleInputChange}
+                    fullWidth
                     required
                     error={error.complemento !== ''}
                     helperText={error.complemento} >
-                    <MenuItem value="Casa">Casa</MenuItem>
-                    <MenuItem value="Apto">Apartamento</MenuItem>
-                    <MenuItem value="Sitio">Sítio</MenuItem>
-                    <MenuItem value="Chacara">Chácara</MenuItem>
+
                 </TextField>
 
                 <TextField
@@ -446,33 +421,33 @@ export default function ClienteForm() {
                     required
                     error={error.uf !== ''}
                     helperText={error.uf} >
-                    <MenuItem value="AC">Acre</MenuItem>
-                    <MenuItem value="AL">Alagoas</MenuItem>
-                    <MenuItem value="AP">Amapá</MenuItem>
-                    <MenuItem value="AM">Amazonas</MenuItem>
-                    <MenuItem value="BA">Bahia</MenuItem>
-                    <MenuItem value="CE">Ceará</MenuItem>
-                    <MenuItem value="DF">Distrito Federal</MenuItem>
-                    <MenuItem value="ES">Espírito Santo</MenuItem>
-                    <MenuItem value="GO">Goiás</MenuItem>
-                    <MenuItem value="MA">Maranhão</MenuItem>
-                    <MenuItem value="MG">Mato Grosso</MenuItem>
-                    <MenuItem value="MS">Mato Grosso do Sul</MenuItem>
-                    <MenuItem value="MG">Minas Gerais</MenuItem>
-                    <MenuItem value="PA">Pará</MenuItem>
-                    <MenuItem value="PB">Paraíba</MenuItem>
-                    <MenuItem value="PR">Paraná</MenuItem>
-                    <MenuItem value="PE">Pernambuco</MenuItem>
-                    <MenuItem value="PI">Piauí</MenuItem>
-                    <MenuItem value="RJ">Rio de Janeiro</MenuItem>
-                    <MenuItem value="RN">Rio Grande do Norte</MenuItem>
-                    <MenuItem value="RS">Rio Grande do Sul</MenuItem>
-                    <MenuItem value="RO">Rondônia</MenuItem>
-                    <MenuItem value="RR">Roraima</MenuItem>
-                    <MenuItem value="SC">Santa Catarina</MenuItem>
-                    <MenuItem value="SP">São Paulo</MenuItem>
-                    <MenuItem value="SE">Sergipe</MenuItem>
-                    <MenuItem value="TO">Tocantins</MenuItem>
+                    <MenuItem value="Acre">Acre</MenuItem>
+                    <MenuItem value="Alagoas">Alagoas</MenuItem>
+                    <MenuItem value="Amapá">Amapá</MenuItem>
+                    <MenuItem value="Amazonas">Amazonas</MenuItem>
+                    <MenuItem value="Bahia">Bahia</MenuItem>
+                    <MenuItem value="Ceará">Ceará</MenuItem>
+                    <MenuItem value="Distrito Federal">Distrito Federal</MenuItem>
+                    <MenuItem value="Espírito Santo">Espírito Santo</MenuItem>
+                    <MenuItem value="Goiás">Goiás</MenuItem>
+                    <MenuItem value="Maranhão">Maranhão</MenuItem>
+                    <MenuItem value="Mato Grosso">Mato Grosso</MenuItem>
+                    <MenuItem value="Mato Grosso do Sul">Mato Grosso do Sul</MenuItem>
+                    <MenuItem value="Minas Gerais">Minas Gerais</MenuItem>
+                    <MenuItem value="Pará">Pará</MenuItem>
+                    <MenuItem value="Paraíba">Paraíba</MenuItem>
+                    <MenuItem value="Paraná">Paraná</MenuItem>
+                    <MenuItem value="Pernambuco">Pernambuco</MenuItem>
+                    <MenuItem value="Piauí">Piauí</MenuItem>
+                    <MenuItem value="Rio de Janeiro">Rio de Janeiro</MenuItem>
+                    <MenuItem value="Rio Grande do Norte">Rio Grande do Norte</MenuItem>
+                    <MenuItem value="Rio Grande do Sul">Rio Grande do Sul</MenuItem>
+                    <MenuItem value="Rondônia">Rondônia</MenuItem>
+                    <MenuItem value="Roraima">Roraima</MenuItem>
+                    <MenuItem value="Santa Catarina">Santa Catarina</MenuItem>
+                    <MenuItem value="São Paulo">São Paulo</MenuItem>
+                    <MenuItem value="Sergipe">Sergipe</MenuItem>
+                    <MenuItem value="Tocantins">Tocantins</MenuItem>
                 </TextField>
 
                 <InputMask
@@ -482,7 +457,7 @@ export default function ClienteForm() {
                     value={cliente.telefone}
                     onChange={event => handleInputChange(event, 'telefone')}>
                     {() => <TextField
-                        className={classes.textfield}            
+                        className={classes.textfield}
                         label="Telefone"
                         variant="filled"
                         fullWidth
@@ -518,7 +493,6 @@ export default function ClienteForm() {
                         Voltar
                     </Button>
                 </Toolbar>
-                {/* <div>{JSON.stringify(cliente)}</div>  */}
             </form>
         </>
     )

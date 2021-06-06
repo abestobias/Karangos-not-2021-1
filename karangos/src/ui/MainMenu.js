@@ -35,7 +35,7 @@ export default function MainMenu() {
         <div>
             {/*<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 Open Menu
-            </Button>*/}
+    </Button>*/}
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MenuIcon />
             </IconButton>
@@ -49,20 +49,20 @@ export default function MainMenu() {
                 <MenuItem onClick={handleClose}>
                     <Link to="/list" className={classes.menuLink}>Listagem de Karangos</Link>
                 </MenuItem>
+                
                 <MenuItem onClick={handleClose}>
                     <Link to="/new" className={classes.menuLink}>Cadastrar Novo Karango</Link>
+                
                 </MenuItem>
-                {/*<MenuItem onClick={handleClose}>
+                
+                <MenuItem onClick={handleClose}>
                     <Link to="/listCliente" className={classes.menuLink}>Listagem de Clientes</Link>
                 </MenuItem>
-        */}
+                
                 <MenuItem onClick={handleClose}>
                     <Link to="/newCliente" className={classes.menuLink}>Cadastrar Cliente</Link>
                 </MenuItem>
 
-
-
-                {/*<MenuItem onClick={handleClose}>Logout</MenuItem>*/}
             </Menu>
         </div>
     );
