@@ -7,7 +7,7 @@ PUBLICAÇÃO (DEPLOY) DO PROJETO karangos NO GITHUB PAGES
 ```
 Troque `{username}` pelo seu usuário do GitHub e `{repo}` pelo nome do repositório. O meu ficou assim:
 ```
-"homepage": "https://fcintra4.github.io/karangos-not-2021-1/karangos/build/",`
+"homepage": "https://abestobias.github.io/karangos-not-2021-1/karangos/build/",`
 ```
 
 2. Execute no terminal (**apenas uma vez**): 
