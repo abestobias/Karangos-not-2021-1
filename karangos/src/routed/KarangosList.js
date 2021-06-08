@@ -64,6 +64,11 @@ export default function KarangoList() {
 
     const history = useHistory()
 
+    useEffect(()=>{
+    
+    setTimeout(()=>getData(), 200)
+}, [])
+
     // É importante inicializar esta variável como um vetor vazio
     const [karangos, setKarangos] = useState([])
     const [dialogOpen, setDialogOpen] = useState(false)

@@ -33,9 +33,7 @@ export default function MainMenu() {
 
     return (
         <div>
-            {/*<Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Open Menu
-    </Button>*/}
+            
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MenuIcon />
             </IconButton>
